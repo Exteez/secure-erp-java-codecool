@@ -101,5 +101,6 @@ public class TerminalView {
      * @param message String with error details
      */
     public static void printErrorMessage(String message) {
+        System.err.println(message);
     }
 }
