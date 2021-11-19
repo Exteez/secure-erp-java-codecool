@@ -1,5 +1,7 @@
 package com.codecool.secureerp.view;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.Scanner;
 
 public class TerminalView {
@@ -52,6 +54,24 @@ public class TerminalView {
      * @param table 2 dimensional array to be printed as table
      */
     public static void printTable(String[][] table) {
+        System.out.println("/--------------------------------\\");
+        System.out.printf("|%s|%s|%s|%n",
+                StringUtils.center("id", 7),
+                StringUtils.center("product", 12),
+                StringUtils.center("type", 11));
+        System.out.println("|-------|------------|-----------|");
+
+        for (int i = 0; i < table.length; i++) {
+            System.out.printf("|%s|%s|%s|%n",
+                    StringUtils.center(String.valueOf(i), 7),
+                    StringUtils.center(table[i][0], 12),
+                    StringUtils.center(table[i][1], 11));
+            if (i == table.length - 1) {
+                System.out.println("\\--------------------------------/");
+            } else {
+                System.out.println("|-------|------------|-----------|");
+            }
+        }
     }
 
     /**
