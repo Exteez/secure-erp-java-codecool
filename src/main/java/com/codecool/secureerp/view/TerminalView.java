@@ -66,6 +66,7 @@ public class TerminalView {
                     StringUtils.center(String.valueOf(i), 7),
                     StringUtils.center(table[i][0], 12),
                     StringUtils.center(table[i][1], 11));
+
             if (i == table.length - 1) {
                 System.out.println("\\--------------------------------/");
             } else {
