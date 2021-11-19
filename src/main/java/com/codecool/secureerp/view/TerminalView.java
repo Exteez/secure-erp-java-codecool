@@ -2,6 +2,7 @@ package com.codecool.secureerp.view;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TerminalView {
@@ -102,7 +103,15 @@ public class TerminalView {
      * @return array of user inputs
      */
     public static String[] getInputs(String[] labels) {
-        throw new RuntimeException("Not implemented yet");
+        System.out.println(Arrays.toString(labels));
+        String[] userInputs = new String[labels.length];
+
+        for (int i = 0; i < userInputs.length; i++) {
+            System.out.println(labels[i]);
+            userInputs[i] = scanner.nextLine();
+        }
+
+        return userInputs;
     }
 
     /**
