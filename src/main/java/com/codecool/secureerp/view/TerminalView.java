@@ -14,6 +14,9 @@ public class TerminalView {
      * @param message information to be printed
      */
     public static void printMessage(String message) {
+        final String BLUE_COLOR = "\u001B[34m";
+        final String RESET_COLOR = "\u001B[0m";
+        System.out.println(BLUE_COLOR + message + RESET_COLOR);
     }
 
     /**
