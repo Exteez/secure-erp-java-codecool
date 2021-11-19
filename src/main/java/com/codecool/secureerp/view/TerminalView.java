@@ -31,6 +31,10 @@ public class TerminalView {
      * @param options array of all available options in menu as Strings
      */
     public static void printMenu(String title, String[] options) {
+        System.out.println(title + ":");
+        for (int i = 0; i < options.length; i++) {
+            System.out.println("(" + i + ") " + options[i]);
+        }
     }
 
     /**
