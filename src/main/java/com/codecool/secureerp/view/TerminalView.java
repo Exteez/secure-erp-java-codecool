@@ -46,6 +46,8 @@ public class TerminalView {
      * @param label  label String
      */
     public static void printGeneralResults(String result, String label) {
+        System.out.println(label);
+        System.out.println(result);
     }
 
     /*

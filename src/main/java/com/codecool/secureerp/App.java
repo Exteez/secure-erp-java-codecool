@@ -1,8 +1,6 @@
 package com.codecool.secureerp;
 
-
 import com.codecool.secureerp.controller.MainController;
-
 
 public class App {
 
