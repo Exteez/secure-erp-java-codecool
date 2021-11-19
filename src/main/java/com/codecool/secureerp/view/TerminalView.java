@@ -32,6 +32,7 @@ public class TerminalView {
      */
     public static void printMenu(String title, String[] options) {
         System.out.println(title + ":");
+
         for (int i = 0; i < options.length; i++) {
             System.out.println("(" + i + ") " + options[i]);
         }
