@@ -105,7 +105,6 @@ public class TerminalView {
      * @return array of user inputs
      */
     public static String[] getInputs(String[] labels) {
-        System.out.println(Arrays.toString(labels));
         String[] userInputs = new String[labels.length];
 
         for (int i = 0; i < userInputs.length; i++) {

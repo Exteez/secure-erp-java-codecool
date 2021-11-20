@@ -19,18 +19,14 @@ public class CRMController {
         String id = crmModel.generateId();
         crmModel.setId(id);
 
-        String name = TerminalView.getInput("Name:");
-        crmModel.setName(name);
-
-        String email = TerminalView.getInput("Email:");
-        crmModel.setEmail(email);
-
-        boolean subscribed = Boolean.parseBoolean(TerminalView.getInput("Subscribed (true or false):"));
-        crmModel.setSubscribed(subscribed);
+        String[] userData = TerminalView.getInputs(new String[] {"Name:", "Email:", "Subscribed (true or false):"});
+        crmModel.setName(userData[0]);
+        crmModel.setEmail(userData[1]);
+        crmModel.setSubscribed(Boolean.parseBoolean(userData[2]));
 
         String[] newUser = crmModel.toTableRow();
-
         CRMDAO.addToCsv(newUser);
+        TerminalView.printMessage("Customer added successfully!");
     }
 
     public static void updateCustomers() {
