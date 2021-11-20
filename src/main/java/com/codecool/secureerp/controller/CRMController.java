@@ -1,19 +1,23 @@
 package com.codecool.secureerp.controller;
 
 import com.codecool.secureerp.Util;
+import com.codecool.secureerp.dao.CRMDAO;
 import com.codecool.secureerp.model.CRMModel;
 import com.codecool.secureerp.view.TerminalView;
+
+import java.io.IOException;
+import java.util.Arrays;
 
 public class CRMController {
     public static void listCustomers() {
         TerminalView.printErrorMessage("Not implemented yet");
     }
 
-    public static void addCustomer() {
+    public static void addCustomer() throws IOException {
         CRMModel crmModel = new CRMModel("", "", "", false);
 
-        //String id;
-        //crmModel.setId(id);
+        String id = crmModel.generateId();
+        crmModel.setId(id);
 
         String name = TerminalView.getInput("Name:");
         crmModel.setName(name);
@@ -26,6 +30,7 @@ public class CRMController {
 
         String[] newUser = crmModel.toTableRow();
 
+        CRMDAO.addToCsv(newUser);
     }
 
     public static void updateCustomers() {
@@ -40,7 +45,7 @@ public class CRMController {
         TerminalView.printErrorMessage("Not implemented yet");
     }
 
-    public static void runOperation(int option) {
+    public static void runOperation(int option) throws IOException {
         switch (option) {
             case 1: {
                 listCustomers();
@@ -81,7 +86,7 @@ public class CRMController {
         TerminalView.printMenu("Customer Relationship", options);
     }
 
-    public static void menu() {
+    public static void menu() throws IOException {
         int operation = -1;
         while (operation != 0) {
             displayMenu();

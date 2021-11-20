@@ -3,9 +3,11 @@ package com.codecool.secureerp.controller;
 import com.codecool.secureerp.Util;
 import com.codecool.secureerp.view.TerminalView;
 
+import java.io.IOException;
+
 public class MainController {
 
-    public static void loadModule(int option) {
+    public static void loadModule(int option) throws IOException {
         switch (option) {
             case 1: {
                 CRMController.menu();
@@ -36,7 +38,7 @@ public class MainController {
         TerminalView.printMenu("Main menu", options);
     }
 
-    public static void menu() {
+    public static void menu() throws IOException {
         int module = -1;
         while (module != 0) {
             displayMenu();
