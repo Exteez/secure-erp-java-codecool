@@ -25,8 +25,6 @@ public class CRMController {
         crmModel.setSubscribed(subscribed);
 
         String[] newUser = crmModel.toTableRow();
-
-
     }
 
     public static void updateCustomers() {
