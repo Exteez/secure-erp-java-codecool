@@ -1,6 +1,7 @@
 package com.codecool.secureerp.controller;
 
 import com.codecool.secureerp.Util;
+import com.codecool.secureerp.model.CRMModel;
 import com.codecool.secureerp.view.TerminalView;
 
 public class CRMController {
@@ -9,7 +10,23 @@ public class CRMController {
     }
 
     public static void addCustomer() {
-        TerminalView.printErrorMessage("Not implemented yet");
+        CRMModel crmModel = new CRMModel("", "", "", false);
+
+        //String id;
+        //crmModel.setId(id);
+
+        String name = TerminalView.getInput("Name:");
+        crmModel.setName(name);
+
+        String email = TerminalView.getInput("Email:");
+        crmModel.setEmail(email);
+
+        boolean subscribed = Boolean.parseBoolean(TerminalView.getInput("Subscribed (true or false):"));
+        crmModel.setSubscribed(subscribed);
+
+        String[] newUser = crmModel.toTableRow();
+
+
     }
 
     public static void updateCustomers() {
