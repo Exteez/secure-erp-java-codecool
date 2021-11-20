@@ -16,7 +16,7 @@ public class CRMController {
     public static void addCustomer() throws IOException {
         CRMModel crmModel = new CRMModel("", "", "", false);
 
-        String id = crmModel.generateId();
+        String id = Util.generateId();
         crmModel.setId(id);
 
         String[] userData = TerminalView.getInputs(new String[] {"Name:", "Email:", "Subscribed (true or false):"});
