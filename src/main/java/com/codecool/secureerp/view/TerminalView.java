@@ -2,6 +2,7 @@ package com.codecool.secureerp.view;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class TerminalView {
@@ -21,13 +22,13 @@ public class TerminalView {
 
     /**
      * Prints options in standard menu format like this:
-     *      Main Menu:
-     *      (1) Store manager
-     *      (2) Human resources manager
-     *      (3) Inventory manager
-     *      (0) Exit program
+     * Main Menu:
+     * (1) Store manager
+     * (2) Human resources manager
+     * (3) Inventory manager
+     * (0) Exit program
      *
-     * @param title the title of the menu (first row)
+     * @param title   the title of the menu (first row)
      * @param options array of all available options in menu as Strings
      */
     public static void printMenu(String title, String[] options) {
@@ -42,9 +43,11 @@ public class TerminalView {
      * Prints out any type of non-tabular data
      *
      * @param result String with result to be printed
-     * @param label label String
+     * @param label  label String
      */
     public static void printGeneralResults(String result, String label) {
+        System.out.println(label);
+        System.out.println(result);
     }
 
     /*
@@ -56,6 +59,7 @@ public class TerminalView {
      |   1    | Sidewinder | missile  |
      \--------------------------------/
     */
+
     /**
      * Prints tabular data like above example
      *
@@ -90,7 +94,8 @@ public class TerminalView {
      * @return user input as String
      */
     public static String getInput(String label) {
-        throw new RuntimeException("Not implemented yet");
+        System.out.println(label);
+        return scanner.nextLine();
     }
 
     /**
@@ -100,7 +105,15 @@ public class TerminalView {
      * @return array of user inputs
      */
     public static String[] getInputs(String[] labels) {
-        throw new RuntimeException("Not implemented yet");
+        System.out.println(Arrays.toString(labels));
+        String[] userInputs = new String[labels.length];
+
+        for (int i = 0; i < userInputs.length; i++) {
+            System.out.println(labels[i]);
+            userInputs[i] = scanner.nextLine();
+        }
+
+        return userInputs;
     }
 
     /**
