@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class CRMController {
-    public static void listCustomers() {
-        TerminalView.printErrorMessage("Not implemented yet");
+    public static void listCustomers() throws IOException {
+        CRMDAO.getDataFromCsv();
     }
 
     public static void addCustomer() throws IOException {
@@ -19,7 +19,8 @@ public class CRMController {
         String id = Util.generateId();
         crmModel.setId(id);
 
-        String[] userData = TerminalView.getInputs(new String[] {"Name:", "Email:", "Subscribed (true or false):"});
+        String[] userData = TerminalView.getInputs(
+                new String[] {"Name:", "Email:", "Subscribed (true or false):"});
         crmModel.setName(userData[0]);
         crmModel.setEmail(userData[1]);
         crmModel.setSubscribed(Boolean.parseBoolean(userData[2]));

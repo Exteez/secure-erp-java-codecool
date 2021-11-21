@@ -1,6 +1,11 @@
 package com.codecool.secureerp.dao;
 
+import com.codecool.secureerp.view.TerminalView;
+
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 public class CRMDAO {
@@ -19,25 +24,18 @@ public class CRMDAO {
         csvWriter.close();
     }
 
-    public static String[][] getDataFromCsv() throws IOException {
-        BufferedReader csvReader = new BufferedReader(new FileReader(DATA_FILE));
-        int lineCounter = 0;
-        while (csvReader.readLine() != null) {
-            lineCounter++;
+    public static void getDataFromCsv() throws IOException {
+        String[] dataFromCsv = Files.readAllLines(Paths.get(DATA_FILE), StandardCharsets.UTF_8)
+                .toArray(new String[0]);
+        String[][] userData = new String[dataFromCsv.length + 1][];
+        userData[0] = headers;
+        for (int i = 0; i < dataFromCsv.length; i++) {
+            userData[i+1] = dataFromCsv[i].split(";");
         }
-        System.out.println(lineCounter);
-        String[][] users = new String[lineCounter][];
-        String line;
-        int i = 0;
-        while (csvReader.readLine() != null) {
-            line = csvReader.readLine();
-            System.out.println(line);                // issue: line is always null
-            String[] user = line.split(";");
-            users[i] = user;
-            i++;
-        }
-        System.out.println(Arrays.toString(users));
-        csvReader.close();
-        return users;
+
+        TerminalView.printTable(userData);
+        /*for (String[] row : userData) {
+            System.out.println(Arrays.toString(row));
+        }*/
     }
 }

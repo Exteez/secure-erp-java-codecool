@@ -66,23 +66,33 @@ public class TerminalView {
      * @param table 2 dimensional array to be printed as table
      */
     public static void printTable(String[][] table) {
-        System.out.println("/--------------------------------\\");
-        System.out.printf("|%s|%s|%s|%n",
-                StringUtils.center("id", 7),
-                StringUtils.center("product", 12),
-                StringUtils.center("type", 11));
-        System.out.println("|-------|------------|-----------|");
-
+        int cellSize = 23;
+        System.out.print("/");
+        printTableBorder(table[0].length, cellSize, false);
+        System.out.println("\\");
         for (int i = 0; i < table.length; i++) {
-            System.out.printf("|%s|%s|%s|%n",
-                    StringUtils.center(String.valueOf(i), 7),
-                    StringUtils.center(table[i][0], 12),
-                    StringUtils.center(table[i][1], 11));
+            for (int j = 0; j < table[i].length; j++) {
+                System.out.printf("|%s", StringUtils.center(table[i][j], cellSize));
+            }
+            System.out.println("|");
+            if (i != table.length - 1) {
+                System.out.print("|");
+                printTableBorder(table[0].length, cellSize, true);
+                System.out.println("|");
+            }
+        }
+        System.out.print("\\");
+        printTableBorder(table[0].length, cellSize, false);
+        System.out.println("/");
+    }
 
-            if (i == table.length - 1) {
-                System.out.println("\\--------------------------------/");
-            } else {
-                System.out.println("|-------|------------|-----------|");
+    public static void printTableBorder(int columns, int cellSize, boolean isBetween) {
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < cellSize; j++) {
+                System.out.print("-");
+            }
+            if (i != columns - 1) {
+                System.out.print(isBetween ? "|" : "-");
             }
         }
     }
