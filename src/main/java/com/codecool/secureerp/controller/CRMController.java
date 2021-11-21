@@ -33,10 +33,9 @@ public class CRMController {
     public static void updateCustomers() throws IOException {
         listCustomers();
         String[][] userDataAfterModification = createModifiedData(CRMDAO.getDataFromCsv());
-        CRMDAO.addToCsv(new String[0], false);
 
-        for (String[] user : userDataAfterModification) {
-            CRMDAO.addToCsv(user, true);
+        for (int i = 0; i < userDataAfterModification.length; i++) {
+            CRMDAO.addToCsv(userDataAfterModification[i], i != 0);
         }
     }
 
@@ -52,7 +51,7 @@ public class CRMController {
                         new String[] {
                                 "Saved name: " + userDataFromCsv[i+1][1] + "\nEdit name:",
                                 "Saved email: " + userDataFromCsv[i+1][2] + "\nEdit email:",
-                                "Subscribed (true or false): " + userDataFromCsv[i+1][3].equals("1") + "\nEdit:"});
+                                "Subscribed: " + userDataFromCsv[i+1][3].equals("1") + "\nEdit:"});
                 crmModel.setId(userDataFromCsv[i+1][0]);
                 crmModel.setName(updatedUserData[0]);
                 crmModel.setEmail(updatedUserData[1]);
