@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 public class CRMController {
     public static void listCustomers() throws IOException {
-        CRMDAO.getDataFromCsv();
+        TerminalView.printTable(CRMDAO.getDataFromCsv());
     }
 
     public static void addCustomer() throws IOException {
@@ -26,12 +26,40 @@ public class CRMController {
         crmModel.setSubscribed(Boolean.parseBoolean(userData[2]));
 
         String[] newUser = crmModel.toTableRow();
-        CRMDAO.addToCsv(newUser);
+        CRMDAO.addToCsv(newUser, true);
         TerminalView.printMessage("Customer added successfully!");
     }
 
-    public static void updateCustomers() {
-        TerminalView.printErrorMessage("Not implemented yet");
+    public static void updateCustomers() throws IOException {
+        listCustomers();
+        String[][] userDataAfterModification = createModifiedData(CRMDAO.getDataFromCsv());
+
+        for (int i = 0; i < userDataAfterModification.length; i++) {
+            CRMDAO.addToCsv(userDataAfterModification[i], i != 0);
+        }
+    }
+
+    public static String[][] createModifiedData(String[][] userDataFromCsv) {
+        CRMModel crmModel = new CRMModel("", "", "", false);
+        String userId = TerminalView.getInput("User ID:");
+        String[][] userDataAfterModification = new String[userDataFromCsv.length - 1][];
+        for (int i = 0; i < userDataAfterModification.length; i++) {
+            if (!userDataFromCsv[i+1][0].equals(userId)) {
+                userDataAfterModification[i] = userDataFromCsv[i+1];
+            } else {
+                String[] updatedUserData = TerminalView.getInputs(
+                        new String[] {
+                                "Saved name: " + userDataFromCsv[i+1][1] + "\nEdit name:",
+                                "Saved email: " + userDataFromCsv[i+1][2] + "\nEdit email:",
+                                "Subscribed: " + userDataFromCsv[i+1][3].equals("1") + "\nEdit:"});
+                crmModel.setId(userDataFromCsv[i+1][0]);
+                crmModel.setName(updatedUserData[0]);
+                crmModel.setEmail(updatedUserData[1]);
+                crmModel.setSubscribed(Boolean.parseBoolean(updatedUserData[2]));
+                userDataAfterModification[i] = crmModel.toTableRow();
+            }
+        }
+        return userDataAfterModification;
     }
 
     public static void deleteCustomers() {
