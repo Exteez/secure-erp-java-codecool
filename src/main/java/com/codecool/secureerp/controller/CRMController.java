@@ -31,11 +31,18 @@ public class CRMController {
     }
 
     public static void updateCustomers() throws IOException {
-        CRMModel crmModel = new CRMModel("", "", "", false);
         listCustomers();
-        String userId = TerminalView.getInput("User ID:");
-        String[][] userDataFromCsv = CRMDAO.getDataFromCsv();
+        String[][] userDataAfterModification = createModifiedData(CRMDAO.getDataFromCsv());
+        CRMDAO.addToCsv(new String[0], false);
 
+        for (String[] user : userDataAfterModification) {
+            CRMDAO.addToCsv(user, true);
+        }
+    }
+
+    public static String[][] createModifiedData(String[][] userDataFromCsv) {
+        CRMModel crmModel = new CRMModel("", "", "", false);
+        String userId = TerminalView.getInput("User ID:");
         String[][] userDataAfterModification = new String[userDataFromCsv.length - 1][];
         for (int i = 0; i < userDataAfterModification.length; i++) {
             if (!userDataFromCsv[i+1][0].equals(userId)) {
@@ -53,11 +60,7 @@ public class CRMController {
                 userDataAfterModification[i] = crmModel.toTableRow();
             }
         }
-        CRMDAO.addToCsv(new String[0], false);
-
-        for (String[] user : userDataAfterModification) {
-            CRMDAO.addToCsv(user, true);
-        }
+        return userDataAfterModification;
     }
 
     public static void deleteCustomers() {
