@@ -16,15 +16,15 @@ public class CRMDAO {
     private final static String DATA_FILE = "src/main/resources/crm.csv";
     public static String[] headers = {"Id", "Name", "Email", "Subscribed"};
 
-    public static void addToCsv(String[] userData) throws IOException {
-        FileWriter csvWriter = new FileWriter(DATA_FILE, true);
+    public static void addToCsv(String[] userData, boolean append) throws IOException {
+        FileWriter csvWriter = new FileWriter(DATA_FILE, append);
         csvWriter.append("\n");
         csvWriter.append(String.join(";", userData));
         csvWriter.flush();
         csvWriter.close();
     }
 
-    public static void getDataFromCsv() throws IOException {
+    public static String[][] getDataFromCsv() throws IOException {
         String[] dataFromCsv = Files.readAllLines(Paths.get(DATA_FILE), StandardCharsets.UTF_8)
                 .toArray(new String[0]);
         String[][] userData = new String[dataFromCsv.length + 1][];
@@ -33,9 +33,6 @@ public class CRMDAO {
             userData[i+1] = dataFromCsv[i].split(";");
         }
 
-        TerminalView.printTable(userData);
-        /*for (String[] row : userData) {
-            System.out.println(Arrays.toString(row));
-        }*/
+        return userData;
     }
 }
