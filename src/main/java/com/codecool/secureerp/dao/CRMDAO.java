@@ -1,5 +1,6 @@
 package com.codecool.secureerp.dao;
 
+import com.codecool.secureerp.model.CRMModel;
 import com.codecool.secureerp.view.TerminalView;
 
 import java.io.*;
@@ -15,6 +16,44 @@ public class CRMDAO {
     private final static int SUBSCRIBED_TABLE_INDEX = 3;
     private final static String DATA_FILE = "src/main/resources/crm.csv";
     public static String[] headers = {"Id", "Name", "Email", "Subscribed"};
+
+    public static String[][] createModifiedData(String[][] userDataFromCsv) {
+        CRMModel crmModel = new CRMModel("", "", "", false);
+        String userId = TerminalView.getInput("User ID:");
+        String[][] userDataAfterModification = new String[userDataFromCsv.length - 1][];
+        for (int i = 0; i < userDataAfterModification.length; i++) {
+            if (!userDataFromCsv[i+1][0].equals(userId)) {
+                userDataAfterModification[i] = userDataFromCsv[i+1];
+            } else {
+                String[] userData = new String[4];
+                userData[0] = userId;
+                String[] updatedUserData = TerminalView.getInputs(
+                        new String[] {
+                                "Saved name: " + userDataFromCsv[i+1][1] + "\nEdit name:",
+                                "Saved email: " + userDataFromCsv[i+1][2] + "\nEdit email:",
+                                "Subscribed: " + userDataFromCsv[i+1][3].equals("1") + "\nEdit:"});
+                System.arraycopy(updatedUserData, 0, userData, 1, updatedUserData.length);
+                crmModel.setId(userData[ID_TABLE_INDEX]);
+                crmModel.setName(userData[NAME_TABLE_INDEX]);
+                crmModel.setEmail(userData[EMAIL_TABLE_INDEX]);
+                crmModel.setSubscribed(Boolean.parseBoolean(userData[SUBSCRIBED_TABLE_INDEX]));
+                userDataAfterModification[i] = crmModel.toTableRow();
+            }
+        }
+        return userDataAfterModification;
+    }
+
+    public static String[][] deleteData(String[][] userDataFromCsv) {
+        String userId = TerminalView.getInput("User ID:");
+        String[][] userDataAfterDeletion = new String[userDataFromCsv.length - 1][];
+        int nextFreeIndexInUserDataAfterDeletion = 0;
+        for (int i = 0; i < userDataAfterDeletion.length; i++) {
+            if (!userDataFromCsv[i+1][0].equals(userId)) {
+                userDataAfterDeletion[nextFreeIndexInUserDataAfterDeletion++] = userDataFromCsv[i + 1];
+            }
+        }
+        return userDataAfterDeletion;
+    }
 
     public static void addToCsv(String[] userData, boolean append) throws IOException {
         FileWriter csvWriter = new FileWriter(DATA_FILE, append);
