@@ -62,8 +62,26 @@ public class CRMController {
         return userDataAfterModification;
     }
 
-    public static void deleteCustomers() {
-        TerminalView.printErrorMessage("Not implemented yet");
+    public static void deleteCustomers() throws IOException {
+        listCustomers();
+        String[][] userDataAfterDeletion = deleteData(CRMDAO.getDataFromCsv());
+
+        for (int i = 0; i < userDataAfterDeletion.length; i++) {
+            CRMDAO.addToCsv(userDataAfterDeletion[i], i != 0);
+        }
+    }
+
+    public static String[][] deleteData(String[][] userDataFromCsv) {
+        CRMModel crmModel = new CRMModel("", "", "", false);
+        String userId = TerminalView.getInput("User ID:");
+        String[][] userDataAfterDeletion = new String[userDataFromCsv.length - 1][];
+        int nextFreeIndexInUserDataAfterDeletion = 0;
+        for (int i = 0; i < userDataAfterDeletion.length; i++) {
+            if (!userDataFromCsv[i+1][0].equals(userId)) {
+                userDataAfterDeletion[nextFreeIndexInUserDataAfterDeletion++] = userDataFromCsv[i + 1];
+            }
+        }
+        return userDataAfterDeletion;
     }
 
     public static void getSubscribedEmails() {

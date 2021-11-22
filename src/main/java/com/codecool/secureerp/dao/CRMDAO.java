@@ -18,8 +18,10 @@ public class CRMDAO {
 
     public static void addToCsv(String[] userData, boolean append) throws IOException {
         FileWriter csvWriter = new FileWriter(DATA_FILE, append);
-        if (append) csvWriter.append("\n");
-        csvWriter.append(String.join(";", userData));
+        if (userData != null){
+            if (append) csvWriter.append("\n");
+            csvWriter.append(String.join(";", userData));
+        }
         csvWriter.flush();
         csvWriter.close();
     }
