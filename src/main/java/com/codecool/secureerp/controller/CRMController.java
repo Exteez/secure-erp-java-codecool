@@ -6,7 +6,7 @@ import com.codecool.secureerp.model.CRMModel;
 import com.codecool.secureerp.view.TerminalView;
 
 import java.io.IOException;
-import java.util.Arrays;
+
 
 public class CRMController {
     public static void listCustomers() throws IOException {
@@ -20,7 +20,7 @@ public class CRMController {
         crmModel.setId(id);
 
         String[] userData = TerminalView.getInputs(
-                new String[] {"Name:", "Email:", "Subscribed (true or false):"});
+                new String[]{"Name:", "Email:", "Subscribed (true or false):"});
         crmModel.setName(userData[0]);
         crmModel.setEmail(userData[1]);
         crmModel.setSubscribed(Boolean.parseBoolean(userData[2]));
@@ -37,6 +37,8 @@ public class CRMController {
         for (int i = 0; i < userDataAfterModification.length; i++) {
             CRMDAO.addToCsv(userDataAfterModification[i], i != 0);
         }
+
+        TerminalView.printMessage("User data updated successfully!");
     }
 
     public static void deleteCustomers() throws IOException {
@@ -46,6 +48,7 @@ public class CRMController {
         for (int i = 0; i < userDataAfterDeletion.length; i++) {
             CRMDAO.addToCsv(userDataAfterDeletion[i], i != 0);
         }
+        TerminalView.printMessage("User data deleted successfully!");
     }
 
     public static void getSubscribedEmails() {

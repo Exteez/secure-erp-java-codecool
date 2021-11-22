@@ -15,6 +15,8 @@ public class SalesModel {
         };
     }
 
+    public SalesModel(){}
+
     public SalesModel(String id, String customerId, String product, float price, LocalDate transactionDate) {
         this.id = id;
         this.customerId = customerId;
