@@ -1,25 +1,58 @@
 package com.codecool.secureerp.controller;
 
 import com.codecool.secureerp.Util;
+import com.codecool.secureerp.dao.HRDAO;
+import com.codecool.secureerp.model.HRModel;
 import com.codecool.secureerp.view.TerminalView;
+
+import java.io.IOException;
+import java.time.LocalDate;
 
 public class HRController {
 
 
-    public static void listEmployees() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void listEmployees() throws IOException {
+        TerminalView.printTable(HRDAO.getHRDataFromCsv());
     }
 
-    public static void addEmployee() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void addEmployee() throws IOException {
+        listEmployees();
+        HRModel hrModel = new HRModel();
+
+        String id = Util.generateId();
+        hrModel.setId(id);
+
+        String[] newPerson = TerminalView.getInputs(
+                new String[]{"Name:", "Birthdate:", "Department:", "Clearance:"});
+        hrModel.setName(newPerson[0]);
+        hrModel.setBirthDate(LocalDate.parse(newPerson[1]));
+        hrModel.setDepartment(newPerson[2]);
+        hrModel.setClearance(Integer.parseInt(newPerson[3]));
+
+        String[] hrData = hrModel.toTableRow();
+        HRDAO.addPersonToCsv(hrData, true);
+        TerminalView.printMessage("Person added successfully!");
     }
 
-    public static void updateEmployee() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void updateEmployee() throws IOException {
+        listEmployees();
+        String[][] modifiedHRData = HRDAO.createModifiedHRData(HRDAO.getHRDataFromCsv());
+
+        for (int i = 0; i < modifiedHRData.length; i++) {
+            HRDAO.addPersonToCsv(modifiedHRData[i], i != 0);
+        }
+
+        TerminalView.printMessage("Person data updated successfully!");
     }
 
-    public static void deleteEmployee() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void deleteEmployee() throws IOException {
+        listEmployees();
+        String[][] deletedHr = HRDAO.deleteHRData(HRDAO.getHRDataFromCsv());
+
+        for (int i = 0; i < deletedHr.length; i++) {
+            HRDAO.addPersonToCsv(deletedHr[i], i != 0);
+        }
+        TerminalView.printMessage("Person data deleted successfully!");
     }
 
     public static void getOldestAndYoungest() {
@@ -42,7 +75,7 @@ public class HRController {
         TerminalView.printErrorMessage("Not implemented yet.");
     }
 
-    public static void runOperation(int option) {
+    public static void runOperation(int option) throws IOException {
         switch (option) {
             case 1: {
                 listEmployees();
@@ -103,7 +136,7 @@ public class HRController {
         TerminalView.printMenu("Human Resources", options);
     }
 
-    public static void menu() {
+    public static void menu() throws IOException {
         int operation = -1;
         while (operation != 0) {
             displayMenu();

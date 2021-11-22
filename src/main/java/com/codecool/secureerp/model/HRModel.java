@@ -15,6 +15,10 @@ public class HRModel {
         };
     }
 
+    public HRModel(){
+
+    }
+
     public HRModel(String id, String name, LocalDate birthDate, String department, int clearance) {
         this.id = id;
         this.name = name;
