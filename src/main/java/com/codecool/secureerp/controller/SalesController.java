@@ -108,8 +108,18 @@ public class SalesController {
         TerminalView.printMessage(String.valueOf(count));
     }
 
-    public static void sumTransactionsBetween() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void sumTransactionsBetween() throws IOException {
+        List<SalesModel> salesData = SalesDAO.getSalesDataFromCsv();
+        LocalDate before = LocalDate.parse(TerminalView.getInput("Before date 'yyyy-MM-dd': "));
+        LocalDate after = LocalDate.parse(TerminalView.getInput("After date 'yyyy-MM-dd': "));
+        float sumPrice = 0.0f;
+
+        for (SalesModel salesModel : salesData) {
+            if (salesModel.getTransactionDate().isAfter(before) && salesModel.getTransactionDate().isBefore(after)) {
+                sumPrice += salesModel.getPrice();
+            }
+        }
+        TerminalView.printMessage(String.valueOf(sumPrice));
     }
 
     public static void runOperation(int option) throws IOException {
