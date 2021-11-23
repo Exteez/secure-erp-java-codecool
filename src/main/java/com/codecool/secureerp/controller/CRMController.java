@@ -28,6 +28,7 @@ public class CRMController {
         String[] newUser = crmModel.toTableRow();
         CRMDAO.addToCsv(newUser, true);
         TerminalView.printMessage("Customer added successfully!");
+        TerminalView.printMessage("");
     }
 
     public static void updateCustomers() throws IOException {
@@ -39,6 +40,7 @@ public class CRMController {
         }
 
         TerminalView.printMessage("User data updated successfully!");
+        TerminalView.printMessage("");
     }
 
     public static void deleteCustomers() throws IOException {
@@ -49,11 +51,20 @@ public class CRMController {
             CRMDAO.addToCsv(userDataAfterDeletion[i], i != 0);
         }
         TerminalView.printMessage("User data deleted successfully!");
+        TerminalView.printMessage("");
     }
 
     public static void getSubscribedEmails() throws IOException {
         String[] subscribedEmails = CRMDAO.getEmails(CRMDAO.getDataFromCsv());
-
+        boolean isEmpty = true;
+        for (String email : subscribedEmails) {
+            if (email != null) {
+                isEmpty = false;
+                TerminalView.printMessage(email);
+            }
+        }
+        if (isEmpty) TerminalView.printMessage("There are no subscribed customers yet.");
+        TerminalView.printMessage("");
     }
 
     public static void runOperation(int option) throws IOException {

@@ -74,7 +74,6 @@ public class CRMDAO {
                 subscribedEmails[nextFreeIndexOfSubscribedEmails++] = user[EMAIL_TABLE_INDEX];
             }
         }
-        System.out.println(Arrays.toString(subscribedEmails));
         return subscribedEmails;
     }
 
