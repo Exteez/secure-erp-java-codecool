@@ -2,7 +2,6 @@ package com.codecool.secureerp.view;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class TerminalView {
@@ -45,7 +44,7 @@ public class TerminalView {
      * @param result String with result to be printed
      * @param label  label String
      */
-    public static void printGeneralResults(String result, String label) {
+    public static void printGeneralResults(String label, String result) {
         System.out.println(label);
         System.out.println(result);
     }

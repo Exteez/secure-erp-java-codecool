@@ -91,12 +91,21 @@ public class SalesController {
                 maxEntry = entry;
             }
         }
-        assert maxEntry != null;
-        TerminalView.printMessage("Product: " + maxEntry.getKey() + "\nRevenue: " + maxEntry.getValue());
+        TerminalView.printGeneralResults(maxEntry.getKey(), String.valueOf(maxEntry.getValue()));
     }
 
-    public static void countTransactionsBetween() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void countTransactionsBetween() throws IOException {
+        List<SalesModel> salesData = SalesDAO.getSalesDataFromCsv();
+        LocalDate before = LocalDate.parse(TerminalView.getInput("Before date 'yyyy-MM-dd': "));
+        LocalDate after = LocalDate.parse(TerminalView.getInput("After date 'yyyy-MM-dd': "));
+        int count = 0;
+        for (SalesModel salesModel : salesData) {
+            if (salesModel.getTransactionDate().isAfter(before) && salesModel.getTransactionDate().isBefore(after)) {
+                count++;
+            }
+        }
+
+        TerminalView.printMessage(String.valueOf(count));
     }
 
     public static void sumTransactionsBetween() {
