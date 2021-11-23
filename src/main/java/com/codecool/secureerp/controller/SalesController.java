@@ -7,6 +7,9 @@ import com.codecool.secureerp.view.TerminalView;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class SalesController {
@@ -44,9 +47,6 @@ public class SalesController {
         TerminalView.printMessage("Transaction updated successfully!");
     }
 
-
-
-
     public static void deleteTransactions() throws IOException {
         listTransactions();
         String[][] deletedFromSales = SalesDAO.deleteSalesData(SalesDAO.getTransDataFromCsv());
@@ -58,12 +58,41 @@ public class SalesController {
         TerminalView.printMessage("Transaction deleted successfully!");
     }
 
-    public static void getBiggestRevenueTransaction() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void getBiggestRevenueTransaction() throws IOException {
+        List<SalesModel> salesData = SalesDAO.getSalesDataFromCsv();
+        SalesModel biggestRevenue = salesData.get(0);
+
+        for (SalesModel model : salesData) {
+            if (biggestRevenue.getPrice() < model.getPrice()) {
+                biggestRevenue = model;
+            }
+        }
+        TerminalView.printMessage("Biggest Revenue Transaction: " + biggestRevenue);
     }
 
-    public static void getBiggestRevenueProduct() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+    public static void getBiggestRevenueProduct() throws IOException {
+        List<SalesModel> salesData = SalesDAO.getSalesDataFromCsv();
+        Map<String, Float> map = new HashMap<>();
+
+        for (SalesModel salesModel : salesData) {
+            if (map.containsKey(salesModel.getProduct())) {
+                float sumPrice = map.get(salesModel.getProduct()) + salesModel.getPrice();
+                map.put(salesModel.getProduct(), sumPrice);
+
+            } else {
+                map.put(salesModel.getProduct(), salesModel.getPrice());
+            }
+        }
+
+        Map.Entry<String, Float> maxEntry = null;
+
+        for (Map.Entry<String, Float> entry : map.entrySet()) {
+            if (maxEntry == null || 0 < entry.getValue().compareTo(maxEntry.getValue())) {
+                maxEntry = entry;
+            }
+        }
+        assert maxEntry != null;
+        TerminalView.printMessage("Product: " + maxEntry.getKey() + "\nRevenue: " + maxEntry.getValue());
     }
 
     public static void countTransactionsBetween() {

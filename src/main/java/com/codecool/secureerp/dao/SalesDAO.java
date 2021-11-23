@@ -3,12 +3,13 @@ package com.codecool.secureerp.dao;
 import com.codecool.secureerp.model.SalesModel;
 import com.codecool.secureerp.view.TerminalView;
 
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SalesDAO {
     private final static int ID_TABLE_INDEX = 0;
@@ -79,5 +80,23 @@ public class SalesDAO {
             salesData[i + 1] = dataFromCsv[i].split(";");
         }
         return salesData;
+    }
+
+    public static List<SalesModel> getSalesDataFromCsv() throws IOException {
+        List<SalesModel> salesDataFromCsv = new ArrayList<>();
+        FileReader fileReader = new FileReader(DATA_FILE);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
+            String[] temp = line.split(";");
+            String id = temp[0];
+            String customerId = temp[1];
+            String product = temp[2];
+            float price = Float.parseFloat(temp[3]);
+            LocalDate transactionDate = LocalDate.parse(temp[4]);
+            salesDataFromCsv.add(new SalesModel(id, customerId, product, price, transactionDate));
+        }
+        bufferedReader.close();
+        return salesDataFromCsv;
     }
 }

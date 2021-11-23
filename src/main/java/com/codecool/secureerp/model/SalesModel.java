@@ -7,6 +7,18 @@ public class SalesModel {
     private String customerId;
     private String product;
     private float price;
+
+    @Override
+    public String toString() {
+        return "SalesModel{" +
+                "id='" + id + '\'' +
+                ", customerId='" + customerId + '\'' +
+                ", product='" + product + '\'' +
+                ", price=" + price +
+                ", transactionDate=" + transactionDate +
+                '}';
+    }
+
     private LocalDate transactionDate;
 
     public String[] toTableRow() {
