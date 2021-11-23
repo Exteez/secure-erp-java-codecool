@@ -51,8 +51,9 @@ public class CRMController {
         TerminalView.printMessage("User data deleted successfully!");
     }
 
-    public static void getSubscribedEmails() {
-        TerminalView.printErrorMessage("Not implemented yet");
+    public static void getSubscribedEmails() throws IOException {
+        String[] subscribedEmails = CRMDAO.getEmails(CRMDAO.getDataFromCsv());
+
     }
 
     public static void runOperation(int option) throws IOException {

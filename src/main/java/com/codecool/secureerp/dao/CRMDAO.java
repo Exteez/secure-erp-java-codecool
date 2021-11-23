@@ -7,6 +7,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 
 public class CRMDAO {
@@ -63,6 +64,18 @@ public class CRMDAO {
         }
         csvWriter.flush();
         csvWriter.close();
+    }
+
+    public static String[] getEmails(String[][] userData) {
+        String[] subscribedEmails = new String[userData.length];
+        int nextFreeIndexOfSubscribedEmails = 0;
+        for (String[] user : userData) {
+            if (user[SUBSCRIBED_TABLE_INDEX].equals("1")) {
+                subscribedEmails[nextFreeIndexOfSubscribedEmails++] = user[EMAIL_TABLE_INDEX];
+            }
+        }
+        System.out.println(Arrays.toString(subscribedEmails));
+        return subscribedEmails;
     }
 
     public static String[][] getDataFromCsv() throws IOException {
