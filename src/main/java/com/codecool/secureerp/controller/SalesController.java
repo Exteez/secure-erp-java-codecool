@@ -47,6 +47,9 @@ public class SalesController {
         TerminalView.printMessage("Transaction updated successfully!");
     }
 
+
+
+
     public static void deleteTransactions() throws IOException {
         listTransactions();
         String[][] deletedFromSales = SalesDAO.deleteSalesData(SalesDAO.getTransDataFromCsv());

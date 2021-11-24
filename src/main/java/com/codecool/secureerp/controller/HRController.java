@@ -7,6 +7,8 @@ import com.codecool.secureerp.view.TerminalView;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HRController {
 
@@ -56,12 +58,71 @@ public class HRController {
     }
 
     public static void getOldestAndYoungest() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+
+
+        ArrayList<HRModel> lista = new ArrayList<>();
+        String[][] nyomtatas = {};
+        try {
+            nyomtatas = HRDAO.getHRDataFromCsv();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String[] row : nyomtatas) {
+            // System.out.println(row[2]);
+            if (!"Date of birth".equals(row[2])) {
+                HRModel model = new HRModel(row[0], row[1], LocalDate.parse(row[2]), row[3], Integer.parseInt(row[4]));
+                lista.add(model);
+            }
+        }
+        //System.out.println(lista);
+        LocalDate oldest = LocalDate.MAX;
+        String oldestName = "";
+        for (HRModel model : lista) {
+            if (model.getBirthDate().isBefore(oldest)) {
+                oldest = model.getBirthDate();
+                oldestName = model.getName();
+            }
+        }
+        TerminalView.printGeneralResults(oldestName, "The oldest employee is: ");
+
+
+        LocalDate youngest = LocalDate.MIN;
+        String youngestName = "";
+        for (HRModel model : lista) {
+            if (model.getBirthDate().isAfter(youngest)) {
+                youngest = model.getBirthDate();
+                youngestName = model.getName();
+            }
+        }
+        TerminalView.printGeneralResults(youngestName, "The youngest employee is: ");
+
+
+
     }
 
+
     public static void getAverageAge() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+
+
     }
+
+
+
+    /*avg
+    * int sum = 0;
+        int [] nums = {1,4, 7 ,8, 25, 53, 43};
+        for (int i = 0; i < nums.length ; i++) {
+        sum += nums[i];
+        }
+        int avg = sum / nums.length;
+        System.out.println(avg);
+    *3
+    *
+    *
+    *
+    * */
+
 
     public static void nextBirthdays() {
         TerminalView.printErrorMessage("Not implemented yet.");
@@ -135,6 +196,7 @@ public class HRController {
         };
         TerminalView.printMenu("Human Resources", options);
     }
+
 
     public static void menu() throws IOException {
         int operation = -1;

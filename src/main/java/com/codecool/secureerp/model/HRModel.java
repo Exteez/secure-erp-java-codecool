@@ -66,4 +66,15 @@ public class HRModel {
     public void setClearance(int clearance) {
         this.clearance = clearance;
     }
+
+    @Override
+    public String toString() {
+        return "HRModel{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                ", department='" + department + '\'' +
+                ", clearance=" + clearance +
+                '}';
+    }
 }
