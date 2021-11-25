@@ -135,7 +135,18 @@ public class HRController {
     }
 
     public static void countEmployeesWithClearance() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+        ArrayList<HRModel> lista = getHrModels();
+        String input = TerminalView.getInput("add klerensz level");
+        int inputInt = Integer.parseInt(input);
+        int resultClear = 0;
+        for (HRModel model : lista) {
+            if (inputInt <= model.getClearance()) {
+                resultClear++;
+            }
+        }
+        String resultClearStr = String.valueOf(resultClear);
+        TerminalView.printGeneralResults("Employees with clearence: ", resultClearStr);
+
     }
 
     public static void countEmployeesPerDepartment() {
