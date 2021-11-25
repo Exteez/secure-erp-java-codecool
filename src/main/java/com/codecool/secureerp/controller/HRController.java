@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HRController {
 
@@ -61,7 +63,6 @@ public class HRController {
 
 
         ArrayList<HRModel> lista = getHrModels();
-        //System.out.println(lista);
         LocalDate oldest = LocalDate.MAX;
         String oldestName = "";
         for (HRModel model : lista) {
@@ -96,7 +97,6 @@ public class HRController {
         }
 
         for (String[] row : nyomtatas) {
-            // System.out.println(row[2]);
             if (!"Date of birth".equals(row[2])) {
                 HRModel model = new HRModel(row[0], row[1], LocalDate.parse(row[2]), row[3], Integer.parseInt(row[4]));
                 lista.add(model);
@@ -121,22 +121,22 @@ public class HRController {
 
     public static void nextBirthdays() {
         ArrayList<HRModel> lista = getHrModels();
-        LocalDate today = LocalDate.now();
         String result = "";
+        String input = TerminalView.getInput("Enter a date of yyyy-MM-dd format");
+        LocalDate inputLD = LocalDate.parse(input);
         for (HRModel model : lista) {
-            LocalDate twoWeeksDelay = LocalDate.of(today.getYear(), model.getBirthDate().getMonth(), model.getBirthDate().getDayOfMonth());
-            int dayNum = (int) ChronoUnit.DAYS.between(today, twoWeeksDelay);
+            LocalDate twoWeeksDelay = LocalDate.of(inputLD.getYear(), model.getBirthDate().getMonth(), model.getBirthDate().getDayOfMonth());
+            int dayNum = (int) ChronoUnit.DAYS.between(inputLD, twoWeeksDelay);
             if (dayNum >= 0 && dayNum <= 14) {
                 result += model.getName() + ", ";
             }
         }
         TerminalView.printGeneralResults("Happy Birthday to:", result);
-
     }
 
     public static void countEmployeesWithClearance() {
         ArrayList<HRModel> lista = getHrModels();
-        String input = TerminalView.getInput("add klerensz level");
+        String input = TerminalView.getInput("Check clearence level:");
         int inputInt = Integer.parseInt(input);
         int resultClear = 0;
         for (HRModel model : lista) {
@@ -147,10 +147,21 @@ public class HRController {
         String resultClearStr = String.valueOf(resultClear);
         TerminalView.printGeneralResults("Employees with clearence: ", resultClearStr);
 
+
     }
 
     public static void countEmployeesPerDepartment() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+        ArrayList<HRModel> lista = getHrModels();
+        Map<String, Integer> key = new HashMap<>();
+        for (HRModel model : lista) {
+            if (!key.containsKey(model.getDepartment())) {
+                key.put(model.getDepartment(), 1);
+            } else {
+                key.replace(model.getDepartment(), key.get(model.getDepartment()) + 1);
+            }
+        }
+        TerminalView.printGeneralResults("Number of employees per department:", key.toString());
+
     }
 
     public static void runOperation(int option) throws IOException {
