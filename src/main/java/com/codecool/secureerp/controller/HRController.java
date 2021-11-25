@@ -110,23 +110,28 @@ public class HRController {
         ArrayList<HRModel> lista = getHrModels();
         double sumOfYears = 0;
         for (HRModel model : lista) {
-            sumOfYears+=
-                ChronoUnit.YEARS.between(model.getBirthDate(), LocalDate.now());
+            sumOfYears +=
+                    ChronoUnit.YEARS.between(model.getBirthDate(), LocalDate.now());
         }
-        //System.out.println(sumOfYears / lista.size());
         double resultBday = sumOfYears / lista.size();
         String resultBdayStr = String.valueOf(resultBday);
         TerminalView.printGeneralResults("Average age: ", resultBdayStr);
-        //TerminalView.printGeneralResults(result);
-
-        }
-
-
-
+    }
 
 
     public static void nextBirthdays() {
-        TerminalView.printErrorMessage("Not implemented yet.");
+        ArrayList<HRModel> lista = getHrModels();
+        LocalDate today = LocalDate.now();
+        String result = "";
+        for (HRModel model : lista) {
+            LocalDate twoWeeksDelay = LocalDate.of(today.getYear(), model.getBirthDate().getMonth(), model.getBirthDate().getDayOfMonth());
+            int dayNum = (int) ChronoUnit.DAYS.between(today, twoWeeksDelay);
+            if (dayNum >= 0 && dayNum <= 14) {
+                result += model.getName() + ", ";
+            }
+        }
+        TerminalView.printGeneralResults("Happy Birthday to:", result);
+
     }
 
     public static void countEmployeesWithClearance() {
