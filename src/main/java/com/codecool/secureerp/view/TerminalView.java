@@ -132,4 +132,7 @@ public class TerminalView {
     public static void printErrorMessage(String message) {
         System.err.println(message);
     }
+
+    public static void printGeneralResults(double resultBday) {
+    }
 }

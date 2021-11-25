@@ -7,8 +7,8 @@ import com.codecool.secureerp.view.TerminalView;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class HRController {
 
@@ -60,6 +60,33 @@ public class HRController {
     public static void getOldestAndYoungest() {
 
 
+        ArrayList<HRModel> lista = getHrModels();
+        //System.out.println(lista);
+        LocalDate oldest = LocalDate.MAX;
+        String oldestName = "";
+        for (HRModel model : lista) {
+            if (model.getBirthDate().isBefore(oldest)) {
+                oldest = model.getBirthDate();
+                oldestName = model.getName();
+            }
+        }
+        TerminalView.printGeneralResults("The oldest employee is: ", oldestName);
+
+
+        LocalDate youngest = LocalDate.MIN;
+        String youngestName = "";
+        for (HRModel model : lista) {
+            if (model.getBirthDate().isAfter(youngest)) {
+                youngest = model.getBirthDate();
+                youngestName = model.getName();
+            }
+        }
+        TerminalView.printGeneralResults("The youngest employee is: ", youngestName);
+
+
+    }
+
+    private static ArrayList<HRModel> getHrModels() {
         ArrayList<HRModel> lista = new ArrayList<>();
         String[][] nyomtatas = {};
         try {
@@ -75,53 +102,27 @@ public class HRController {
                 lista.add(model);
             }
         }
-        //System.out.println(lista);
-        LocalDate oldest = LocalDate.MAX;
-        String oldestName = "";
-        for (HRModel model : lista) {
-            if (model.getBirthDate().isBefore(oldest)) {
-                oldest = model.getBirthDate();
-                oldestName = model.getName();
-            }
-        }
-        TerminalView.printGeneralResults(oldestName, "The oldest employee is: ");
-
-
-        LocalDate youngest = LocalDate.MIN;
-        String youngestName = "";
-        for (HRModel model : lista) {
-            if (model.getBirthDate().isAfter(youngest)) {
-                youngest = model.getBirthDate();
-                youngestName = model.getName();
-            }
-        }
-        TerminalView.printGeneralResults(youngestName, "The youngest employee is: ");
-
-
-
+        return lista;
     }
 
 
     public static void getAverageAge() {
-
-
-    }
-
-
-
-    /*avg
-    * int sum = 0;
-        int [] nums = {1,4, 7 ,8, 25, 53, 43};
-        for (int i = 0; i < nums.length ; i++) {
-        sum += nums[i];
+        ArrayList<HRModel> lista = getHrModels();
+        double sumOfYears = 0;
+        for (HRModel model : lista) {
+            sumOfYears+=
+                ChronoUnit.YEARS.between(model.getBirthDate(), LocalDate.now());
         }
-        int avg = sum / nums.length;
-        System.out.println(avg);
-    *3
-    *
-    *
-    *
-    * */
+        //System.out.println(sumOfYears / lista.size());
+        double resultBday = sumOfYears / lista.size();
+        String resultBdayStr = String.valueOf(resultBday);
+        TerminalView.printGeneralResults("Average age: ", resultBdayStr);
+        //TerminalView.printGeneralResults(result);
+
+        }
+
+
+
 
 
     public static void nextBirthdays() {
